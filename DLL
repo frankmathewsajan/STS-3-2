@@ -1,0 +1,109 @@
+class Node {
+    int data;
+    Node next, prev;
+
+    Node(int newData) {
+        data = newData;
+        next = prev = null;
+    }
+}
+
+public class DLL {
+    Node head; 
+
+    public void push(int new_data) {
+        Node new_node = new Node(new_data);
+        new_node.next = head;
+        head = new_node;
+    }
+
+    public static Node insertAfter(Node head, int key, int newData) {
+        Node curr = head;
+        while (curr != null) {
+            if (curr.data == key)
+                break;
+            curr = curr.next;
+        }
+
+        if (curr == null)
+            return head;
+
+        Node newNode = new Node(newData);
+        newNode.prev = curr;
+        newNode.next = curr.next;
+        curr.next = newNode;
+
+        if (newNode.next != null)
+            newNode.next.prev = newNode;
+
+        return head;
+    }
+
+    public void append(int new_data) {
+        Node new_node = new Node(new_data);
+        if (head == null) {
+            head = new Node(new_data);
+            return;
+        }
+        new_node.next = null;
+        Node last = head; 
+        while (last.next != null)
+            last = last.next;
+        last.next = new_node;
+    }
+
+    public static Node insertBefore(Node head, int key, int newData) {
+        Node curr = head;
+        while (curr != null) {
+            if (curr.data == key) {
+                break;
+            }
+            curr = curr.next;
+        }
+
+        if (curr == null) {
+            return head;
+        }
+
+        Node newNode = new Node(newData);
+        newNode.prev = curr.prev;
+        newNode.next = curr;
+
+        if (curr.prev != null) {
+            curr.prev.next = newNode;
+        } else {
+            head = newNode;
+        }
+
+        curr.prev = newNode;
+
+        return head;
+    }
+
+    public static void printList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(" " + curr.data);
+            curr = curr.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        head.next = new Node(3);
+        head.next.prev = head;
+        head.next.next = new Node(4);
+        head.next.next.prev = head.next;
+
+        System.out.print("Original Linked List: ");
+        printList(head);
+
+        System.out.print("Inserting Node with data 2 before node 3: ");
+        int data = 2;
+        int key = 3;
+        head = insertBefore(head, key, data);
+
+        printList(head);
+    }
+}
