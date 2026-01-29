@@ -17,9 +17,17 @@ public class TowerOfHanoi {
         }
         int total = (int) Math.pow(2, n) - 1;
         for (int i = 1; i <= total; i++) {
-            if (i % 3 == 1) move(src, dest, s, d);
-            else if (i % 3 == 2) move(src, aux, s, a);
-            else move(aux, dest, a, d);
+            switch (i % 3) {
+                case 1:
+                    move(src, dest, s, d);
+                    break;
+                case 2:
+                    move(src, aux, s, a);
+                    break;
+                default:
+                    move(aux, dest, a, d);
+                    break;
+            }
         }
     }
 
